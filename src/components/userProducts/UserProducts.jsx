@@ -82,8 +82,8 @@ return (
           <td>{productData.title}</td>
           <td className>{truncateText(productData.description, 10)}</td>
           <td>{productData.price}</td>
-          <button onClick={() => {handleUpdateProduct(productData.id)}}>Update</button>     
-          <button onClick={() => {handleDeleteProduct(productData.id)}}>Delete</button>     
+          <button className="btn btn-primary" onClick={() => {handleUpdateProduct(productData.id)}}>Update</button>     
+          <button className="btn btn-danger" onClick={() => {handleDeleteProduct(productData.id)}}>Delete</button>     
         </tr>)
         :
         <div>Loading...</div>

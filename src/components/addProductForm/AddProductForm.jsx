@@ -1,14 +1,14 @@
 import { Modal } from 'react-bootstrap';
 import { useState, useEffect } from "react"
 import { getProductById, uploadProduct, updateProduct } from '../../services/productService';
-// import './chooseDisplay.scss'
+import { validateProductInput } from '../../helpers/InputValidation';
 
 const AddProductForm = ({ show, handleClose, authToken, productIdToUpdate, requestUpdate}) => {
 
     const [formProductData, setFormProductData] = useState(
         {
             "title": '',
-            "price": 0,
+            "price": '',
             "image": '',
             "description": ''
         }
@@ -18,7 +18,8 @@ const AddProductForm = ({ show, handleClose, authToken, productIdToUpdate, reque
         if (event.target.name === 'image') {
             setFormProductData({
                 ...formProductData,
-                [event.target.name]: event.target.files[0], // Use event.target.files for file inputs
+                [event.target.name]: event.target.files[0]//.name, // Use event.target.files for file inputs
+                //"files": event.target.files[0]
             });
         }
         else{
@@ -46,7 +47,7 @@ const AddProductForm = ({ show, handleClose, authToken, productIdToUpdate, reque
         else{
             setFormProductData({
                 "title": '',
-                "price": 0,
+                "price": '',
                 "image": '',
                 "description": ''
             })
@@ -56,9 +57,12 @@ const AddProductForm = ({ show, handleClose, authToken, productIdToUpdate, reque
     const submitHandler = (e) => {
         e.preventDefault();
         if(productIdToUpdate){
+            
             updateProduct(authToken, formProductData,productIdToUpdate).then(requestUpdate())
         }
         else{
+            console.log("trying to upload with this body:")
+            console.log(formProductData)
             uploadProduct(authToken, formProductData).then(requestUpdate())
         }
         
@@ -68,6 +72,8 @@ const AddProductForm = ({ show, handleClose, authToken, productIdToUpdate, reque
     useEffect(()=>{
 
     },[formProductData])
+
+    let [isInputInvalid, invalidFieldKey, invalidInputMessage] = validateProductInput(formProductData)
 
     return (
       <Modal show={show} onHide={handleClose}>
@@ -90,7 +96,11 @@ const AddProductForm = ({ show, handleClose, authToken, productIdToUpdate, reque
                     <input name="description" id="description" className="form-control" placeholder="Product description" value={formProductData.description} onChange={handleChange}></input>
                 </div>
                 <div className="mb-3">
-                    <button className={"btn btn-primary" + (false ? " disabled" : "")} type="submit">{productIdToUpdate? "Update" : "Add Product"}</button>
+                    {isInputInvalid?
+                        <p className="text-danger">{invalidInputMessage}</p>
+                        :
+                        <></>}
+                    <button className={"btn btn-primary" + (isInputInvalid ? " disabled" : "")} type="submit">{productIdToUpdate? "Update" : "Add Product"}</button>
                 </div>
           </form>
         </Modal.Body>

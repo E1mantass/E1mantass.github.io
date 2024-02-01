@@ -1,11 +1,12 @@
-// import { postRequest } from "../../services/userService";
-import Login from "../login/Login";
 import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
-import ProductList from "../productList/ProductList";
 import Header from "../header/Header";
+import ProductList from "../productList/ProductList";
+import Login from "../login/Login";
+import Register from "../register/Register";
 import UserProducts from "../userProducts/UserProducts";
 import ProductPage from "../productPage/ProductPage";
-import Register from "../register/Register";
+import Footer from "../footer/Footer";
+import '../../Style.scss'
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
           <Route path='/userProducts/:id' element={<UserProducts/>}/>
           <Route path='/product/:id' element={<ProductPage/>}/>
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );

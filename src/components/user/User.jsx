@@ -15,7 +15,6 @@ const User = ()=>{
         if(authToken)
         {
             checkLoginStatus(authToken).then(data => setUserData(data.data))
-            // console.log(userData)
         }
     }, [authToken])
 
@@ -33,7 +32,7 @@ const User = ()=>{
                 <a className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {userData.name}
                 </a>
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li><Link className="dropdown-item" to="/userproducts/1">My Products</Link></li>
                   <li><hr className="dropdown-divider"/></li>
                   <li><button className="dropdown-item" onClick={handleLogout}>Log out</button></li>
